@@ -1,0 +1,12 @@
+Package: scDECAF
+Type: Package
+Title: Celltype and pehnotype annotation by learning geneset representations
+Version: 0.99.0
+Author: Soroor Hediyeh-zadeh
+Maintainer: Soroor Hediyeh-zadeh <hediyehzadeh.s@wehi.edu.au>
+Description: Learning geneset representations in single cell RNAseq by canonical factors.
+Imports: PMA, FNN, limma, matrixStats
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
