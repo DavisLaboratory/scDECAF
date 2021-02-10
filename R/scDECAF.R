@@ -17,7 +17,7 @@
 #' @details
 #' The cell-geneset assignments are determined by cosine similarity of vector representations
 #' of cells and genesets by CCA. There is the a “re-assignment” step where the umap (embedding) coordinates of the cells are
-#' used to refine labels based on a local (n=3-15) or global (n>15) neighborhood of
+#' used to refine labels based on a local (\code{k}=3-15) or global (\code{k}>15) neighborhood of
 #' the cell, as the lower-dimensional embedding of the cells captures the transcriptional heterogeneity of
 #' cells, and cells with similar transcriptional profiles should ideally have same labels/phenotypes.
 #' Users have their own choice of embedding, as there are various methods to obtain low-dimensional embedding
@@ -40,10 +40,12 @@ scDECAF <- function(data, gs, hvg, cca.k= NULL, standardize=TRUE,
   # evalution of the warning statement
 
   if(any(colSums(data) == 0)) stop("Empty cells detected. Please remove cells with zero counts.")
+  if(any(colSums(gs) == 0)) stop("Empty genesets detected. Please remove genesets with no genes.")
   if(any(!hvg %in% rownames(data))) stop("Some or all of HVG features are not present in data matrix.")
   if(all(is.null(rownames(embedding)))) stop("Row names are required for embedding.")
   if(ncol(data) != nrow(embedding)) stop("Number of cells differ between the input and embedding.")
   if (is.null(cca.k)) cca.k <- min(dim(gs)) - 1
+  if(!is.matrix(data)) data <- as.matrix(data)
 
 
   xt <- data[match(rownames(gs), rownames(data)),]
@@ -202,23 +204,33 @@ scDECAF <- function(data, gs, hvg, cca.k= NULL, standardize=TRUE,
   })
 
 
-  if(n_invalid > 0){
-    out <- data.frame(cell = c(names(transported_labels), unassigned_cells),
-                      pred_celltype = c(transported_labels, rep("unassigned", n_invalid)),
-                      score = c(nn$nn.dist^2, rep(NA, n_invalid)),
-                      reassigned_celltype = c(reassigned_celltype,  rep("unassigned", n_invalid)),
-                      uncertainty = c(uncertainty, rep(NA, n_invalid)),
-                      prop_neighbourhood_preserved = c(prop_preserved_nns, rep(NA, n_invalid)),
-                      dist_to_centroid = c(dist_to_centroid, rep(NA, n_invalid)))
-  }else{
-    out <- data.frame(cell = names(transported_labels),
-                      pred_celltype = transported_labels,
-                      score = nn$nn.dist^2,
-                      reassigned_celltype = reassigned_celltype,
-                      uncertainty = uncertainty,
-                      prop_neighbourhood_preserved = prop_preserved_nns,
-                      dist_to_centroid = dist_to_centroid)
+  if(n_invalid == 0){
+    unassigned_cells <- NULL
+    n_unassigned <- 0
+  } else {
+    n_unassigned <- n_invalid
   }
+
+
+
+    out <- data.frame(cell = c(names(transported_labels), unassigned_cells),
+                      pred_celltype = c(transported_labels, rep("unassigned", n_unassigned)),
+                      score = c(nn$nn.dist^2, rep(NA, n_unassigned)),
+                      reassigned_celltype = c(reassigned_celltype,  rep("unassigned", n_unassigned)),
+                      uncertainty = c(uncertainty, rep(NA, n_unassigned)),
+                      prop_neighbourhood_preserved = c(prop_preserved_nns, rep(NA, n_unassigned)),
+                      dist_to_centroid = c(dist_to_centroid, rep(NA, n_unassigned)))
+
+
+
+    # out <- data.frame(cell = names(transported_labels),
+    #                   pred_celltype = transported_labels,
+    #                   score = nn$nn.dist^2,
+    #                   reassigned_celltype = reassigned_celltype,
+    #                   uncertainty = uncertainty,
+    #                   prop_neighbourhood_preserved = prop_preserved_nns,
+    #                   dist_to_centroid = dist_to_centroid)
+
 
 
 

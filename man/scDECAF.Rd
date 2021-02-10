@@ -47,7 +47,7 @@ Reference-free cell type and phenotype annotation by learning geneset representa
 \details{
 The cell-geneset assignments are determined by cosine similarity of vector representations
 of cells and genesets by CCA. There is the a “re-assignment” step where the umap (embedding) coordinates of the cells are
-used to refine labels based on a local (n=3-15) or global (n>15) neighborhood of
+used to refine labels based on a local (\code{k}=3-15) or global (\code{k}>15) neighborhood of
 the cell, as the lower-dimensional embedding of the cells captures the transcriptional heterogeneity of
 cells, and cells with similar transcriptional profiles should ideally have same labels/phenotypes.
 Users have their own choice of embedding, as there are various methods to obtain low-dimensional embedding
