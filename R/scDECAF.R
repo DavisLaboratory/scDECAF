@@ -40,7 +40,7 @@ scDECAF <- function(data, gs, hvg, cca.k= NULL, standardize=TRUE,
   # evalution of the warning statement
 
   if(any(colSums(data) == 0)) stop("Empty cells detected. Please remove cells with zero counts.")
-  if(any(colSums(gs) == 0)) stop("Empty genesets detected. Please remove genesets with no genes.")
+  if(any(colSums(abs(gs)) == 0)) stop("Empty genesets detected. Please remove genesets with no genes.")
   if(any(!hvg %in% rownames(data))) stop("Some or all of HVG features are not present in data matrix.")
   if(all(is.null(rownames(embedding)))) stop("Row names are required for embedding.")
   if(ncol(data) != nrow(embedding)) stop("Number of cells differ between the input and embedding.")
