@@ -39,7 +39,14 @@ scDECAF(
 \item{max_iter}{numeric. currently not used.}
 }
 \value{
-Data frame of annotation results
+Data frame of annotation results. The \code{pred_celltype} and \code{reassigned_celltype} columns report initial and refined
+label/geneset assignments respectively. The \code{score} is the cosine distance between the vector representation of the cell and the
+closest geneset. The variable \code{uncertainty} is the confidence in label assignment based on the label of the cells in the neighborhood.
+\code{prop_neighbourhood_preserved} is the proportion of nearest neighbors in embedding space preserved in CCA subspaces.
+\code{dist_to_centroid} is the distance of the cell from label centroid, where label centroid is computed as the median coordinate
+values for all cells assigned to that label in the embedding space. Raw cosine similarity scores for all genesets in the input
+genesets lists, \code{gs}, can be accessed via the \code{raw_scores} attribute assigned to the output data-frame
+i.e. \code{attributes(res_df)$raw_scores}, where \code{res_df} is the data-frame returned by the function.
 }
 \description{
 Reference-free cell type and phenotype annotation by learning geneset representations
