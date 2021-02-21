@@ -213,9 +213,9 @@ scDECAF <- function(data, gs, hvg, cca.k= NULL, standardize=TRUE,
 
 
 
-    out <- data.frame(cell = c(names(transported_labels), unassigned_cells),
+  out <- data.frame(cell = c(names(transported_labels), unassigned_cells),
                       pred_celltype = c(transported_labels, rep("unassigned", n_unassigned)),
-                      score = c(nn$nn.dist^2, rep(NA, n_unassigned)),
+                      score = c(0.5*(2-nn$nn.dist^2), rep(NA, n_unassigned)),
                       reassigned_celltype = c(reassigned_celltype,  rep("unassigned", n_unassigned)),
                       uncertainty = c(uncertainty, rep(NA, n_unassigned)),
                       prop_neighbourhood_preserved = c(prop_preserved_nns, rep(NA, n_unassigned)),
@@ -223,18 +223,27 @@ scDECAF <- function(data, gs, hvg, cca.k= NULL, standardize=TRUE,
 
 
 
-    # out <- data.frame(cell = names(transported_labels),
-    #                   pred_celltype = transported_labels,
-    #                   score = nn$nn.dist^2,
-    #                   reassigned_celltype = reassigned_celltype,
-    #                   uncertainty = uncertainty,
-    #                   prop_neighbourhood_preserved = prop_preserved_nns,
-    #                   dist_to_centroid = dist_to_centroid)
+  out <- out[match(colnames(data), out$cell),]
+
+  # score for all genesets
+  nngs <- FNN::get.knnx(data =  P_t[,1:n_components],
+                        query =  P_s_1[,1:n_components],
+                        k = nrow(P_t))
 
 
 
+  scores <- 0.5*(2-(nngs$nn.dist^2))
 
-  return(out[match(colnames(data), out$cell),])
+  indicies <- nngs$nn.index
+
+  for (i in seq_len(nrow(scores))) {
+    scores[i,] <- scores[i,match(gs_names, gs_names[indicies[i,]])]
+    }
+  rownames(scores) <- names(transported_labels)
+  colnames(scores) <- gs_names
+  attr(out,"raw_scores") <- scores
+
+  return(out)
 }
 
 
