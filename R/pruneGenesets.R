@@ -44,7 +44,7 @@ pruneGenesets <- function(data, genesetlist,
   mean_expr_per_gs <- apply(mean_expr_per_gs, 1, FUN=function(x) x/colSums(target))
 
   cvfit <- glmnet::cv.glmnet(x = t(mean_expr_per_gs), y=embedding ,
-                             family = "mgaussian", nfolds = 10,
+                             family = "mgaussian", nfolds = nfolds,
                              gamma = gamma, standardize = FALSE) # gamma = 0.5 elastic net
 
   if(!suppress_plot) glmnet::plot(cvfit)
