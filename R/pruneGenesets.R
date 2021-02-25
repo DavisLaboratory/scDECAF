@@ -20,6 +20,7 @@
 #' @return a character vector of selected genesets. Regression coefficients from the glmnet model
 #' can be accessed via the \code{glmnet_coef} attribute.
 #'
+#' @importFrom graphics plot
 #' @export
 pruneGenesets <- function(data, genesetlist,
                     embedding,
@@ -30,6 +31,7 @@ pruneGenesets <- function(data, genesetlist,
                     gamma=0, nfolds = 10){
 
   if(!is.null(hvg) & any(!hvg %in% rownames(data))) stop("Some or all of HVG features are not present in data matrix.")
+  if(class(data)[1] %in% c("dgCMatrix", "dgTMatrix")) data <- as.matrix(data)
 
   if(!is.null(hvg)){
     target <- genesets2ids(data[match(hvg, rownames(data)),], genesetlist)
@@ -43,16 +45,19 @@ pruneGenesets <- function(data, genesetlist,
   mean_expr_per_gs <-  t(data[match(rownames(target), rownames(data)),]) %*% target
   mean_expr_per_gs <- apply(mean_expr_per_gs, 1, FUN=function(x) x/colSums(target))
 
+  message("Computing optimal shrinkage value by cross-validation")
   cvfit <- glmnet::cv.glmnet(x = t(mean_expr_per_gs), y=embedding ,
                              family = "mgaussian", nfolds = nfolds,
                              gamma = gamma, standardize = FALSE) # gamma = 0.5 elastic net
 
-  if(!suppress_plot) glmnet::plot(cvfit)
+  if(!suppress_plot) plot(cvfit)
   if(lambda == 'lambda.1se') lambda <- cvfit$lambda.1se
+
+  message(paste("Fitting penalized multi-response gaussian GLM with alpha", round(lambda,3)))
   mfit <- glmnet::glmnet(x = t(mean_expr_per_gs), y=embedding , family = "mgaussian",
                  gamma = gamma, lambda = lambda, standardize = FALSE)
 
-
+  message("Returning selected genesets with non-zero regression coefficients")
   coefs <- glmnet::coef.glmnet(mfit)[[1]][-1,"s0"] # -1 to drop coef for intercept
   selected_gs <- names(coefs)[coefs!=0]
 

@@ -3,5 +3,6 @@
 export(genesets2ids)
 export(pruneGenesets)
 export(scDECAF)
+importFrom(graphics,plot)
 importFrom(stats,aggregate)
 importFrom(stats,median)
