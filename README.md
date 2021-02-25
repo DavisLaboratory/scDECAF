@@ -14,7 +14,8 @@ scDECAF is a tool for mapping phenotype and celltype similarities in single cell
 
 What are the other similar methods?
 ------------------------
-
+**Celltype annotation** is typically done by examining the expression of canonical markers, or using reference or atlas datasets such as the
+[Human Lung Cell Atlas] (https://hlca.ds.czbiohub.org/)
 
 
 #### Install from Github
