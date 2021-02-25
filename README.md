@@ -15,7 +15,19 @@ scDECAF is a tool for *mapping phenotype and celltype similarities* in single ce
 What are the other similar methods?
 ------------------------
 **Celltype annotation** is typically done by examining the expression of canonical markers, or using reference or atlas datasets such as the
-[Human Lung Cell Atlas](https://hlca.ds.czbiohub.org/)
+[Human Lung Cell Atlas](https://hlca.ds.czbiohub.org/). The reference-based methods may involve integration of reference with the query data. 
+Examples include:
+
+* [scVI](https://www.nature.com/articles/s41592-018-0229-2) which uses Deep Generative Models
+* [scArches](https://www.biorxiv.org/content/10.1101/2020.07.16.205997v1) also uses Generative Models with Transfer Learning
+
+Some popular reference-based methods that do not involve direct integration of reference and query datasets are:
+
+* [SingleR](https://bioconductor.org/packages/release/bioc/html/SingleR.html)
+* [scmap](https://www.nature.com/articles/nmeth.4644)
+
+These methods annotate cells based on the correlation between reference and query.
+The well known annotation tool, [Seurat](https://www.cell.com/cell/fulltext/S0092-8674(19)30559-8), offers reference-based annotation strategies both with and without implicit integration of datasets. Celltype annotation can also be done using pre-trained classifiers. [scPred]
 
 
 #### Install from Github
