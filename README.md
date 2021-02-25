@@ -30,7 +30,9 @@ Some popular reference-based methods do not involve direct integration of refere
 The well known annotation tool, [Seurat](https://www.cell.com/cell/fulltext/S0092-8674(19)30559-8), offers reference-based annotation strategies both with and without implicit integration of datasets. Another category of methods use pre-trained classifiers for celltype annotation. [scPred](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1862-5), for example, uses SVM classifier to predict the identity of the cells in a query dataset. Amongs the mentioned methods, *scDECAF* is only comparable to [garnett](https://www.nature.com/articles/s41592-019-0535-3); they both take genesets/marker lists as input and use no quantitative information other than the expression profiles in the dataset of interest.
 
 
-#### Install from Github
+**
+
+#### Interested to try out our method? Install from Github
 Requires R >= 4.0.0
 
 ```
