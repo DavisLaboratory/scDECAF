@@ -17,7 +17,7 @@ What are the other similar methods?
 
 
 
-### Install from Github
+#### Install from Github
 Requires R >= 4.0.0
 
 ```
