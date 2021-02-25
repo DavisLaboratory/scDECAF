@@ -5,7 +5,7 @@ Version: 0.99.0
 Author: Soroor Hediyeh-zadeh
 Maintainer: Soroor Hediyeh-zadeh <hediyehzadeh.s@wehi.edu.au>
 Description: Learning geneset representations in single cell RNAseq by canonical factors.
-Imports: PMA, FNN, limma, matrixStats
+Imports: PMA, FNN, limma, matrixStats, glmnet
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

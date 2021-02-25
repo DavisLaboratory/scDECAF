@@ -49,7 +49,7 @@ pruneGenesets <- function(data, genesetlist,
 
   if(!suppress_plot) glmnet::plot(cvfit)
   if(lambda == 'lambda.1se') lambda <- cvfit$lambda.1se
-  mfit <- glmnet::glmnet(x = t(mean_expr_per_gs), y=cell_embeddings , family = "mgaussian",
+  mfit <- glmnet::glmnet(x = t(mean_expr_per_gs), y=embedding , family = "mgaussian",
                  gamma = gamma, lambda = lambda, standardize = FALSE)
 
 
