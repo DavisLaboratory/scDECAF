@@ -27,10 +27,7 @@ Some popular reference-based methods that do not involve direct integration of r
 * [scmap](https://www.nature.com/articles/nmeth.4644)
 
 These methods annotate cells based on the correlation between reference and query.
-The well known annotation tool, [Seurat](https://www.cell.com/cell/fulltext/S0092-8674(19)30559-8), offers reference-based annotation strategies both with and without implicit integration of datasets.
-
-
-Another category of methods use pre-trained classifiers for celltype annotation. [scPred](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1862-5), for example, uses SVM classifier to predict the identity of the cells in a query dataset.
+The well known annotation tool, [Seurat](https://www.cell.com/cell/fulltext/S0092-8674(19)30559-8), offers reference-based annotation strategies both with and without implicit integration of datasets. Another category of methods use pre-trained classifiers for celltype annotation. [scPred](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1862-5), for example, uses SVM classifier to predict the identity of the cells in a query dataset.
 
 
 #### Install from Github
