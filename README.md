@@ -15,9 +15,9 @@ scDECAF is a tool for mapping phenotype and celltype similarities in single cell
 What are the other similar methods?
 ------------------------
 
-Install from Github
-------------------------------------
 
+
+### Install from Github
 Requires R >= 4.0.0
 
 ```
