@@ -12,7 +12,10 @@
 #' @param hvg character vector of Highly Variable Genes.
 #' @param min_gs_size numeric. Minimum number of genes per geneset.
 #' @param suppress_plot logical. Should the plot of glm cross-validation results be suppressed? default to FALSE.
-#' @param lambda numeric or character. The lasso penalty.
+#' @param lambda numeric or character. The lasso penalty. This is set to optimal value selected
+#' by cross-validation by default. Should be set to exp(log(lambda)), where
+#' log(lambda) is chosen based on the diagnostic plot returned by the function
+#' (requires \code{suppress_plot = FALSE}).
 #' @param gamma numeric. Controls the behavior of shrinkage operator e.g. \code{gamma=0.5}
 #'     is equivalent to the Elastic Net model
 #' @param nfolds numeric. Number of folds for cross-validation.
@@ -44,6 +47,8 @@ pruneGenesets <- function(data, genesetlist,
 
   mean_expr_per_gs <-  t(data[match(rownames(target), rownames(data)),]) %*% target
   mean_expr_per_gs <- apply(mean_expr_per_gs, 1, FUN=function(x) x/colSums(target))
+
+  embedding <- data.matrix(embedding)
 
   message("Computing optimal shrinkage value by cross-validation")
   cvfit <- glmnet::cv.glmnet(x = t(mean_expr_per_gs), y=embedding ,

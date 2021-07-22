@@ -23,7 +23,10 @@ the genes in the genesets must match the rownames in \code{data}.}
 
 \item{suppress_plot}{logical. Should the plot of glm cross-validation results be suppressed? default to FALSE.}
 
-\item{lambda}{numeric or character. The lasso penalty.}
+\item{lambda}{numeric or character. The lasso penalty. This is set to optimal value selected
+by cross-validation by default. Should be set to exp(log(lambda)), where
+log(lambda) is chosen based on the diagnostic plot returned by the function
+(requires \code{suppress_plot = FALSE}).}
 
 \item{gamma}{numeric. Controls the behavior of shrinkage operator e.g. \code{gamma=0.5}
 is equivalent to the Elastic Net model}
