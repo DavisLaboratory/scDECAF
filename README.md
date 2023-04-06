@@ -2,7 +2,8 @@ scDECAF - Celltype and phenotype annotation in single cell RNAseq
 =================================================================
 
 
-<img src="https://user-images.githubusercontent.com/7257233/107848582-ad5a2980-6e48-11eb-8590-ddd00223e9c5.png" width="700px" align="center">
+
+<img src="https://user-images.githubusercontent.com/7257233/230382403-21b10737-397d-4098-b836-59faa0a715cf.png" width="700px" align="center">
 
 
 
