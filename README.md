@@ -13,6 +13,7 @@ scDECAF is a statistical learning algorithm to identify cell types, states and p
 (Requires R >= 4.0.0)
 
 ```
+install.packages("devtools")
 devtools::install_github("DavisLaboratory/scDECAF")
 ```
 ## Examples
