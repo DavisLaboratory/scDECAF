@@ -18,3 +18,8 @@ devtools::install_github("DavisLaboratory/scDECAF")
 ```
 ## Examples
 See notebooks in the [reproducibility repository](https://github.com/DavisLaboratory/scDECAF-reproducibility)
+
+## Quick start
+```
+(TBA)
+```
