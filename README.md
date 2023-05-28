@@ -20,7 +20,7 @@ devtools::install_github("DavisLaboratory/scDECAF")
 See notebooks in the [reproducibility repository](https://github.com/DavisLaboratory/scDECAF-reproducibility)
 
 ## Quick start
-```
+```{r}
 # sparse selection of most relevant genesets
 # also plots number of genesets surviving the sparsity threshold
 selected_gs <- pruneGenesets(data = x, genesetlist = HM_genesets, hvg = hvg,
