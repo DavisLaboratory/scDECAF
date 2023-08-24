@@ -1,3 +1,5 @@
+![GitHub all releases](https://img.shields.io/github/downloads/DavisLaboratory/scDECAF/total)
+
 scDECAF - single cell disentanglement by canonical factors
 =================================================================
 
