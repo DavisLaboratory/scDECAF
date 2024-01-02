@@ -25,7 +25,7 @@ See notebooks in the [reproducibility repository](https://github.com/DavisLabora
 ```{r}
 # sparse selection of most relevant genesets
 # also plots number of genesets surviving the sparsity threshold
-selected_gs <- pruneGenesets(data = x, genesetlist = HM_genesets, hvg = hvg,
+selected_gs <- pruneGenesets(data = x, genesetlist = my_genesets, hvg = hvg,
                             embedding = cell_embedding, min_gs_size = 3, lambda = exp(-3))
                             
 
@@ -42,7 +42,7 @@ head(attributes(selected_gs)$"glmnet_coef")
 
 # subset on selected genesets from the full genesets list and prepare gene-geneset assignment binary matrix
 rownames(cell_embedding) = cell_names
-target <- genesets2ids(x[match(hvg, rownames(x)),], HM_genesets[selected_gs])
+target <- genesets2ids(x[match(hvg, rownames(x)),], my_genesets[selected_gs])
 
 
 
