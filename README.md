@@ -24,7 +24,7 @@ See notebooks in the [reproducibility repository](https://github.com/DavisLabora
 
 scDECAF takes the followings as input:
 
-**data** : A numeric matrix of log-normalised single cell gene expression (SCT normalisation from seurat, scran or scanpy normalised data)
+**data** : A numeric matrix of log-normalised single cell gene expression (SCT normalisation from seurat, scran- or scanpy- normalised data)
 
 **genesetlist**: A list of lists. Each element of the list is a list of gene IDs or symbols (depending on `rownames(data)`) in a gene set. The outer list has to be named.
 
