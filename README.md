@@ -21,6 +21,24 @@ devtools::install_github("DavisLaboratory/scDECAF")
 See notebooks in the [reproducibility repository](https://github.com/DavisLaboratory/scDECAF-reproducibility)
 
 ## Quick start
+
+scDECAF takes the followings as input:
+
+**data** : A numeric matrix of log-normalised single cell gene expression (SCT normalisation from seurat, scran or scanpy normalised data)
+
+**genesetlist**: A list of lists. Each element of the list is a list of gene IDs or symbols (depending on `rownames(data)`) in a gene set. The outer list has to be named.
+
+**hvg**: Character vector of highly variable genes in `data`. If the data is already subsetted on HVGs, then set this to `rownames(data)`
+
+**embedding**: A numeric matrix 2-D or higher dimensional embedding of the cells, e.g. UMAP, PCA, PHATE, Diffusion components etc.
+
+**min_gs_size** : Scalar. Minimum number of genes in a gene set (after considering hvgs)
+
+**lambda**: Shrinkage regulariser penalty
+
+
+
+
 ```{r}
 # sparse selection of most relevant genesets
 # also plots number of genesets surviving the sparsity threshold
@@ -45,7 +63,7 @@ target <- genesets2ids(x[match(hvg, rownames(x)),], my_genesets[selected_gs])
 
 
 
-# compute geneset scores per cell for the sparse set of selected genesets 
+# compute geneset scores per cell for the sparse set of selected genesets. `K` is number of components in the CCA model. 
 ann_res <- scDECAF(data = x, gs = target, standardize = FALSE, 
                    hvg = hvg, k = 10, embedding = cell_embedding,
                    n_components = ncol(target) - 1, max_iter = 2, thresh = 0.5)
@@ -55,5 +73,6 @@ ann_res <- scDECAF(data = x, gs = target, standardize = FALSE,
 # get geneset scores per cell for the sparse set of genesets
 scores_constrained = attributes(ann_res)$raw_scores
 
-# plot scores
+
 ```
+You can now store the scores to your data container (`sce`, `seuratObj`, `anndata` etc) and visualise the scores per cell.
