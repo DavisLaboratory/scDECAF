@@ -34,7 +34,7 @@ scDECAF takes the followings as input:
 
 **min_gs_size:** Scalar. Minimum number of genes in a gene set (after considering hvgs).
 
-**lambda:** Shrinkage regulariser penalty
+**lambda:** Shrinkage regulariser penalty.
 
 **K:** Scalar. This iss number of components in the CCA model. Has to be smaller than the number of gene sets in `genesetlist` or the prunned `genesetlist`.
 
