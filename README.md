@@ -28,7 +28,7 @@ scDECAF takes the followings as input:
 
 **genesetlist:** A list of lists. Each element of the list is a list of gene IDs or symbols (depending on `rownames(data)`) in a gene set. The outer list has to be named.
 
-**hvg:** Character vector of highly variable genes in `data`. If the data is already subsetted on HVGs, then set this to `rownames(data)`
+**hvg:** Character vector of highly variable genes in `data`. If the data is already subsetted on HVGs, then set this to `rownames(data)`.
 
 **embedding:** A numeric matrix 2-D or higher dimensional embedding of the cells, e.g. UMAP, PCA, PHATE, Diffusion components etc. Rows are cells, columns are the dimension of the data in the reduced dimension space.
 
