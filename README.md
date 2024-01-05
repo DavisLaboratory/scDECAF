@@ -36,7 +36,9 @@ scDECAF takes the followings as input:
 
 **lambda:** Shrinkage regulariser penalty.
 
-**K:** Scalar. This iss number of components in the CCA model. Has to be smaller than the number of gene sets in `genesetlist` or the prunned `genesetlist`.
+**n_components:** Scalar. This is number of components in the CCA model. Has to be smaller than the number of gene sets in `genesetlist` or the prunned `genesetlist`.
+
+**k**: Scalar. Number of nearest neighbors for cell type refinement. 
 
 
 
