@@ -4,9 +4,17 @@
 \alias{pruneGenesets}
 \title{Penalized generalized linear models for model-based selection of relevant genesets}
 \usage{
-pruneGenesets(data, genesetlist, embedding, hvg = NULL,
-  min_gs_size = 3, suppress_plot = FALSE, lambda = "lambda.1se",
-  gamma = 0, nfolds = 10)
+pruneGenesets(
+  data,
+  genesetlist,
+  embedding,
+  hvg = NULL,
+  min_gs_size = 3,
+  suppress_plot = FALSE,
+  lambda = "lambda.1se",
+  gamma = 0,
+  nfolds = 10
+)
 }
 \arguments{
 \item{data}{numeric matrix of log-normalised values. Rows are genes, columns are cells or samples}

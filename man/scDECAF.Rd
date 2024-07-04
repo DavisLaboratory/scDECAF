@@ -4,8 +4,18 @@
 \alias{scDECAF}
 \title{Reference-free cell type and phenotype annotation by learning geneset representations}
 \usage{
-scDECAF(data, gs, hvg, cca.k = NULL, standardize = TRUE, k = 30,
-  thresh = 0.5, embedding, n_components = ncol(gs) - 1, max_iter = 1)
+scDECAF(
+  data,
+  gs,
+  hvg,
+  cca.k = NULL,
+  standardize = TRUE,
+  k = 30,
+  thresh = 0.5,
+  embedding,
+  n_components = ncol(gs) - 1,
+  max_iter = 1
+)
 }
 \arguments{
 \item{data}{numeric matrix of log-normalised values. Rows are genes, columns are cells or samples}
