@@ -10,11 +10,12 @@ pruneDrug2CellScores(
   suppress_plot = FALSE,
   lambda = "lambda.1se",
   gamma = 0,
-  nfolds = 10
+  nfolds = 10,
+  trace.it = 0
 )
 }
 \arguments{
-\item{data}{numeric matrix of Drug2Cell scores. Rows are Drug2Cell scores, columns are cells or samples.}
+\item{data}{numeric matrix of Drug2Cell scores. columns are Drug2Cell scores, rows are cells or samples.}
 
 \item{embedding}{numeric matrix. UMAP, PHATE or other cell embedding that captures transcriptional similarity of the cells.}
 

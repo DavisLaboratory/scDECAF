@@ -3,7 +3,7 @@
 #'
 #'
 #'
-#' @param data numeric matrix of Drug2Cell scores. Rows are Drug2Cell scores, columns are cells or samples.
+#' @param data numeric matrix of Drug2Cell scores. columns are Drug2Cell scores, rows are cells or samples.
 #' @param embedding numeric matrix. UMAP, PHATE or other cell embedding that captures transcriptional similarity of the cells.
 #' @param suppress_plot logical. Should the plot of glm cross-validation results be suppressed? default to FALSE.
 #' @param lambda numeric or character. The lasso penalty. This is set to optimal value selected
@@ -25,24 +25,24 @@ pruneDrug2CellScores <- function(data,
                     embedding,
                     suppress_plot=FALSE,
                     lambda = 'lambda.1se',
-                    gamma=0, nfolds = 10){
+                    gamma=0, nfolds = 10, trace.it = 0){
 
   
   if(class(data)[1] %in% c("dgCMatrix", "dgTMatrix")) data <- as.matrix(data)
 
-  embedding <- data.matrix(embedding)
+  # embedding <- data.matrix(embedding)
 
   message("Computing optimal shrinkage value by cross-validation")
-  x_t <- t(data) 
-  cvfit <- glmnet::cv.glmnet(x = x_t, y=embedding ,
+  # x_t <- t(data) 
+  cvfit <- glmnet::cv.glmnet(x = data, y=embedding ,
                              family = "mgaussian", nfolds = nfolds,
-                             gamma = gamma, standardize = FALSE) # gamma = 0.5 elastic net
+                             gamma = gamma, standardize = FALSE, trace.it = trace.it) # gamma = 0.5 elastic net
 
   if(!suppress_plot) plot(cvfit)
   if(lambda == 'lambda.1se') lambda <- cvfit$lambda.1se
 
   message(paste("Fitting penalized multi-response gaussian GLM with alpha", round(lambda,3)))
-  mfit <- glmnet::glmnet(x = x_t, y=embedding , family = "mgaussian",
+  mfit <- glmnet::glmnet(x = data, y=embedding , family = "mgaussian",
                  gamma = gamma, lambda = lambda, standardize = FALSE)
 
   message("Returning selected genesets with non-zero regression coefficients")
