@@ -22,7 +22,7 @@
 #'
 #' @return a character vector of selected genesets. Regression coefficients from the glmnet model
 #' can be accessed via the \code{glmnet_coef} attribute.
-#'
+#' @author Soroor Hediyeh-zadeh
 #' @importFrom graphics plot
 #' @export
 pruneGenesets <- function(data, genesetlist,

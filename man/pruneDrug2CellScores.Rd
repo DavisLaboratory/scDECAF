@@ -14,7 +14,7 @@ pruneDrug2CellScores(
 )
 }
 \arguments{
-\item{data}{numeric matrix of Drug2Cell scores. Rows are Drug2Cell scores, columns are cells or samples}
+\item{data}{numeric matrix of Drug2Cell scores. Rows are Drug2Cell scores, columns are cells or samples.}
 
 \item{embedding}{numeric matrix. UMAP, PHATE or other cell embedding that captures transcriptional similarity of the cells.}
 
@@ -36,4 +36,10 @@ can be accessed via the \code{glmnet_coef} attribute.
 }
 \description{
 Penalized generalized linear models for model-based selection of relevant pre-computed Drug2Cell scores
+}
+\details{
+This function is applicable to any pre-computed gene set and signature scores.
+}
+\author{
+Soroor Hediyeh-zadeh
 }

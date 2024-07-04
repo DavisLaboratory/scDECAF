@@ -48,3 +48,6 @@ can be accessed via the \code{glmnet_coef} attribute.
 \description{
 Penalized generalized linear models for model-based selection of relevant genesets
 }
+\author{
+Soroor Hediyeh-zadeh
+}

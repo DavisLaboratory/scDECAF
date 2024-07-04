@@ -18,3 +18,6 @@ numeric matrix. A binary matrix is returned where rows are genes, columns are ge
 \description{
 Creates a binary matrix from a list of genes
 }
+\author{
+Soroor Hediyeh-zadeh
+}

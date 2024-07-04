@@ -5,6 +5,7 @@
 #'     Each geneset can contain genes or gene ids. However, the genes in the genesets must match the rownames in \code{y}.
 #'
 #' @return numeric matrix. A binary matrix is returned where rows are genes, columns are genesets.
+#' @author Soroor Hediyeh-zadeh
 #' @export
 genesets2ids <- function(y, genesetlist){
   INDX <- matrix(0, nrow = nrow(y), ncol= length(genesetlist),

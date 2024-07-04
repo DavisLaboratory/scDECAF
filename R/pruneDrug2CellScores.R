@@ -3,7 +3,7 @@
 #'
 #'
 #'
-#' @param data numeric matrix of Drug2Cell scores. Rows are Drug2Cell scores, columns are cells or samples
+#' @param data numeric matrix of Drug2Cell scores. Rows are Drug2Cell scores, columns are cells or samples.
 #' @param embedding numeric matrix. UMAP, PHATE or other cell embedding that captures transcriptional similarity of the cells.
 #' @param suppress_plot logical. Should the plot of glm cross-validation results be suppressed? default to FALSE.
 #' @param lambda numeric or character. The lasso penalty. This is set to optimal value selected
@@ -13,10 +13,12 @@
 #' @param gamma numeric. Controls the behavior of shrinkage operator e.g. \code{gamma=0.5}
 #'     is equivalent to the Elastic Net model
 #' @param nfolds numeric. Number of folds for cross-validation.
-#'
+#' @details
+#' This function is applicable to any pre-computed gene set and signature scores.
+#' 
 #' @return a character vector of selected genesets. Regression coefficients from the glmnet model
 #' can be accessed via the \code{glmnet_coef} attribute.
-#'
+#' @author Soroor Hediyeh-zadeh
 #' @importFrom graphics plot
 #' @export
 pruneDrug2CellScores <- function(data, 
@@ -31,7 +33,8 @@ pruneDrug2CellScores <- function(data,
   embedding <- data.matrix(embedding)
 
   message("Computing optimal shrinkage value by cross-validation")
-  cvfit <- glmnet::cv.glmnet(x = t(data), y=embedding ,
+  x_t <- t(data) 
+  cvfit <- glmnet::cv.glmnet(x = x_t, y=embedding ,
                              family = "mgaussian", nfolds = nfolds,
                              gamma = gamma, standardize = FALSE) # gamma = 0.5 elastic net
 
@@ -39,7 +42,7 @@ pruneDrug2CellScores <- function(data,
   if(lambda == 'lambda.1se') lambda <- cvfit$lambda.1se
 
   message(paste("Fitting penalized multi-response gaussian GLM with alpha", round(lambda,3)))
-  mfit <- glmnet::glmnet(x = t(data), y=embedding , family = "mgaussian",
+  mfit <- glmnet::glmnet(x = x_t, y=embedding , family = "mgaussian",
                  gamma = gamma, lambda = lambda, standardize = FALSE)
 
   message("Returning selected genesets with non-zero regression coefficients")
