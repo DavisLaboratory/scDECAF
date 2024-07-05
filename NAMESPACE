@@ -2,6 +2,7 @@
 
 export(genesets2ids)
 export(pruneDrug2CellScores)
+export(pruneDrug2CellScores.fitLambda)
 export(pruneGenesets)
 export(scDECAF)
 importFrom(graphics,plot)
