@@ -1,91 +1,121 @@
+# scDECAF: Single-Cell Disentanglement by Canonical Factors
 
-scDECAF - single cell disentanglement by canonical factors
-=================================================================
+![scDECAF overview](https://github.com/DavisLaboratory/scDECAF/assets/7257233/61723efa-2d7c-47d9-af0b-c7205b8b5644)
 
-![Fig1_scDECAF_github](https://github.com/DavisLaboratory/scDECAF/assets/7257233/61723efa-2d7c-47d9-af0b-c7205b8b5644)
+---
 
+## Overview
 
+**scDECAF** is a statistical learning algorithm for single-cell RNA-seq analysis.
+It identifies **gene signatures, states, and transcriptional programs** by learning vector representations of gene sets.
 
-scDECAF is a statistical learning algorithm to identify cell types, states and programs in single-cell gene expression data using vector representation of gene sets. scDECAF improves biological interpretation by selecting a subset of most biologically relevant programs.
+Through sparse selection, scDECAF highlights the most **biologically relevant programs**, improving interpretability of single-cell data.
 
-
+---
 
 ## Installation
-(Requires R >= 4.0.0)
 
-```
+Requires **R ≥ 4.0.0**.
+
+```r
 install.packages("devtools")
 devtools::install_github("DavisLaboratory/scDECAF")
 ```
-## Examples
-See notebooks in the [reproducibility repository](https://github.com/DavisLaboratory/scDECAF-reproducibility)
 
-## Quick start
+---
 
-scDECAF takes the followings as input:
+## Quick Start
 
+Here is a **minimal runnable example** with toy data:
 
-**data:** 
-A numeric matrix of log-normalised single cell gene expression (SCT normalisation from seurat, scran- or scanpy- normalised data). Rows are genes, columns are the cells.
+```r
+library(scDECAF)
 
-**genesetlist:** 
-A list of lists. Each element of the list is a list of gene IDs or symbols (depending on `rownames(data)`) in a gene set. The outer list has to be named.
+# Simulated expression matrix (100 genes x 200 cells)
+set.seed(123)
+x <- matrix(rpois(100*200, lambda = 5), nrow = 100, ncol = 200)
+rownames(x) <- paste0("Gene", 1:100)
+colnames(x) <- paste0("Cell", 1:200)
 
-**hvg:** 
-Character vector of highly variable genes in `data`. If the data is already subsetted on HVGs, then set this to `rownames(data)`.
+# Define toy gene sets
+genesetlist <- list(
+  Pathway_A = rownames(x)[1:15],
+  Pathway_B = rownames(x)[16:30],
+  Pathway_C = rownames(x)[31:45]
+)
 
-**embedding:** 
-A numeric matrix 2-D or higher dimensional embedding of the cells, e.g. UMAP, PCA, PHATE, Diffusion components etc. Rows are cells, columns are the dimension of the data in the reduced dimension space.
+# Highly variable genes (here, all genes for simplicity)
+hvg <- rownames(x)
 
-**min_gs_size:** 
-Scalar. Minimum number of genes in a gene set (after considering hvgs).
+# Dummy 2D embedding (e.g., from PCA/UMAP)
+cell_embedding <- matrix(rnorm(200*2), ncol = 2)
+rownames(cell_embedding) <- colnames(x)
 
-**lambda:** 
-Shrinkage regulariser penalty.
+# Sparse selection of relevant gene sets
+selected_gs <- pruneGenesets(
+  data = x,
+  genesetlist = genesetlist,
+  hvg = hvg,
+  embedding = cell_embedding,
+  min_gs_size = 5,
+  lambda = exp(-3)
+)
 
-**n_components:** 
-Scalar. This is number of components in the CCA model. Has to be smaller than the number of gene sets in `genesetlist` or the prunned `genesetlist`.
+# Build gene–set assignment matrix
+target <- genesets2ids(
+  x[match(hvg, rownames(x)), ],
+  genesetlist[selected_gs]
+)
 
-**k**: 
-Scalar. Number of nearest neighbors for cell type refinement. 
+# Compute gene-set scores
+ann_res <- scDECAF(
+  data = x,
+  gs = target,
+  hvg = hvg,
+  k = 5,
+  embedding = cell_embedding,
+  n_components = min(2, ncol(target) - 1),
+  max_iter = 2,
+  thresh = 0.5
+)
 
-
-
-
-```{r}
-# sparse selection of most relevant genesets
-# also plots number of genesets surviving the sparsity threshold
-selected_gs <- pruneGenesets(data = x, genesetlist = my_genesets, hvg = hvg,
-                            embedding = cell_embedding, min_gs_size = 3, lambda = exp(-3))
-                            
-
-
-# print selected genesets
-as.character(selected_gs)
-
-
-
-# print ranking/importance of geneset
-head(attributes(selected_gs)$"glmnet_coef")
-
-
-
-# subset on selected genesets from the full genesets list and prepare gene-geneset assignment binary matrix
-rownames(cell_embedding) = cell_names
-target <- genesets2ids(x[match(hvg, rownames(x)),], my_genesets[selected_gs])
-
-
-
-# compute geneset scores per cell for the sparse set of selected genesets. `K` is number of components in the CCA model. 
-ann_res <- scDECAF(data = x, gs = target, standardize = FALSE, 
-                   hvg = hvg, k = 10, embedding = cell_embedding,
-                   n_components = ncol(target) - 1, max_iter = 2, thresh = 0.5)
-                   
-
-
-# get geneset scores per cell for the sparse set of genesets
-scores_constrained = attributes(ann_res)$raw_scores
-
-
+# Extract per-cell scores
+scores <- attributes(ann_res)$raw_scores
+head(scores[, 1:3])  # preview first few components
 ```
-You can now store the scores to your data container (`sce`, `seuratObj`, `anndata` etc) and visualise the scores per cell.
+
+You can now add `scores` to your single-cell object (`SingleCellExperiment`, `Seurat`, or `AnnData`) and visualize them per cell.
+
+---
+
+## Input Requirements
+
+* **data**: log-normalised single-cell expression matrix
+* **genesetlist**: named list of gene sets
+* **hvg**: highly variable genes
+* **embedding**: reduced dimension embedding (UMAP, PCA, PHATE, etc.)
+* **min_gs_size**: minimum gene set size
+* **lambda**: shrinkage penalty
+* **n_components**: number of CCA components
+* **k**: nearest neighbors for refinement
+
+---
+
+## Reproducibility
+
+Full analysis notebooks reproducing the manuscript are available in the [reproducibility repository](https://github.com/DavisLaboratory/scDECAF-reproducibility).
+
+---
+
+## Citation
+
+If you use scDECAF, please cite:
+
+> Hediyehzadeh, Whitfield, et al., *Identification of cell types, states and programs by learning gene set representations*, bioRxiv (2023).
+> [https://doi.org/10.1101/2023.09.08.556842](https://doi.org/10.1101/2023.09.08.556842)
+
+---
+
+## License
+
+This project is released under the same license as the Davis Laboratory repositories.
