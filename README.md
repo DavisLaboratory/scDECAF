@@ -1,6 +1,7 @@
 # scDECAF: Single-Cell Disentanglement by Canonical Factors
 
-![scDECAF overview](https://github.com/DavisLaboratory/scDECAF/assets/7257233/61723efa-2d7c-47d9-af0b-c7205b8b5644)
+<img width="1627" height="780" alt="scDECAF overview" src="https://github.com/user-attachments/assets/396833cf-9716-4860-ac09-84d6fa37f6b3" />
+
 
 ---
 
