@@ -34,7 +34,7 @@ pruneGenesets <- function(data, genesetlist,
                     gamma=0, nfolds = 10){
 
   if(!is.null(hvg) & any(!hvg %in% rownames(data))) stop("Some or all of HVG features are not present in data matrix.")
-  if(class(data)[1] %in% c("dgCMatrix", "dgTMatrix")) data <- as.matrix(data)
+  if(class(data)[1] %in% c("dgCMatrix", "dgTMatrix", "dgeMatrix")) data <- as.matrix(data)
 
   if(!is.null(hvg)){
     target <- genesets2ids(data[match(hvg, rownames(data)),], genesetlist)
@@ -45,7 +45,7 @@ pruneGenesets <- function(data, genesetlist,
 
   target <- target[,colSums(target) > min_gs_size]
 
-  mean_expr_per_gs <-  t(data[match(rownames(target), rownames(data)),]) %*% target
+  mean_expr_per_gs <-  t(data[match(rownames(target), rownames(data)),, drop=FALSE]) %*% target
   mean_expr_per_gs <- apply(mean_expr_per_gs, 1, FUN=function(x) x/colSums(target))
 
   embedding <- data.matrix(embedding)
