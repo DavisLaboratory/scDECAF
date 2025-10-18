@@ -102,7 +102,7 @@ You can now add `scores` to your single-cell object (`SingleCellExperiment`, `Se
 
 ---
 
-## Demo notebooks
+## Demo 
 
 | Workflow | Notebook |
 |-----------|------|
