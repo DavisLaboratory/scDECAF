@@ -102,6 +102,17 @@ You can now add `scores` to your single-cell object (`SingleCellExperiment`, `Se
 
 ---
 
+## Demo notebooks
+
+| Workflow | Notebook |
+|-----------|------|
+| Pathway/gene signature screening and scoring | [Kang et al. (2018): 25K PBMC single cells](https://github.com/DavisLaboratory/scDECAF-reproducibility/blob/master/kang_pbmc/kang_pbmc.ipynb) |
+| Optimization of sparsity operator | [Experimentation with the shrinkage penalty and gene set screening results in Kang et al. (2018)](https://github.com/DavisLaboratory/scDECAF-reproducibility/blob/master/kang_pbmc/sparse_mode_effect.ipynb)|
+|PMBC COVID-19 analysis| [Combining reference atlas mapping and Milo analysis with scDECAF gene set screening](https://github.com/DavisLaboratory/scDECAF-reproducibility/blob/master/cite_pbmc/TotalVI_scDECAF_analysis-addMilo.ipynb)|
+|Drug2cell analysis with scDECAF| [Running scDECAF with pre-computed Drug2cell scores in HECOA Organoid Atlas]|
+
+---
+
 ## Reproducibility
 
 Full analysis notebooks reproducing the manuscript are available in the [reproducibility repository](https://github.com/DavisLaboratory/scDECAF-reproducibility).
